@@ -1,0 +1,399 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1, user-scalable=no">
+    <title>应用评估报告</title>
+    <link rel="stylesheet" href="css/main.css" media="all"/>
+    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.1.min.js"></script>
+    <script type="text/javascript" src="js/jquery.print.js"></script>
+    <script type="text/javascript" src="js/echarts.min.js"></script>
+    <script src="res/data.js" type="text/javascript"></script>
+    <script src="js/behavior_dic.js" type="text/javascript"></script>
+    <script src="js/app_brief_analyse.js" type="text/javascript"></script>
+    <link rel="stylesheet" href="css/print.css" media="print"/>
+</head>
+<body>
+<div id="divWait"><h3>正在加载中...</h3></div>
+<div id="divWrapper" class="report-wrapper">
+    <!--头部-->
+    <header class="header">
+        <img src="img/bg.gif"
+             style="position: absolute;left: 0; right: 0; top: 0; bottom:0;width: 100%;height: 144px;z-index: -999">
+        <div class="header_info">
+            <div class="header_content">
+                <div class="info_left">
+                    <img src="img/logo.png" style="height: 96px"/>
+                    <span class="info_name" id="trpReportHeader"></span>
+                </div>
+                <div class="info_right">
+                    <div class="date" id="divReportCreateDate">报告生成日期：[@report_time]</div>
+                    <ul class="top_bar line_bar">
+                        <li class="active"><a>评估报告</a></li>
+                        <li><a href="detail.html">详细报告</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!--内容区域-->
+    <div class="content">
+        <!--评估结果-->
+        <div class="col-100" id="divMalCode">
+            <div class="panel_datagrid" id="rightInfo">
+                <img src="img/datagrid_panel.jpg"
+                     style="position:absolute;top: 0; left:0;width: 1000px;height: 58px;z-index: -1">
+                <h5 class="panel_title">评估结果</h5>
+                <div class="panel_datagrid_body ">
+                    <div class="hor_display" style="height: 270px;">
+                        <div class="main_info" id="malCodeChart">
+                            <h3 class="item_title">
+                                <img class="title_icon" style="width: 76px;height: 76px" src="res/ico.png"  onerror="this.src='img/default.png'">
+                                <div class="title_info text-color-[@safe_level]">[@assess_result]
+                                    <p class="item_subtitle">
+                                        [@app_name]
+                                    </p>
+                                </div>
+                            </h3>
+                            <div class="sub_desc"  style="width: 590px;height: 120px">
+                                <div style="position: absolute ;bottom: 0">
+                                    [@check_result_sugg]
+                                </div>
+                            </div>
+                        </div>
+                        <!--柱状图-->
+                        <div style="width: 350px; height: 100%; display: inline-block;">
+                            <div style="width: 350px;height: 100%;" id="appInfoChart"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <!--样本信息-->
+        <div class="col-100" id="appInfo">
+            <div class="panel" style="height: 370px;">
+                <img src="img/yangbenbg.png"
+                     style="position:absolute;left: 0; right: 0; top: 0px; bottom:0;width: 100%;height: 100%;z-index: -1">
+                <h5 class="panel_title">样本信息</h5>
+                <div>
+                    <div class="vercell vercell_title">
+                        <div class="vercell_message">信息</div>
+                        <div class="vercell_value">值</div>
+                    </div>
+                    <div class="ver_list">
+                        <div class="vercell">
+                            <div class="vercell_message">应用名称</div>
+                            <div class="vercell_value">[@app_name]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">应用版本</div>
+                            <div class="vercell_value">[@app_ver_name]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">文件大小</div>
+                            <div class="vercell_value">[@app_file_size]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">应用包名</div>
+                            <div class="vercell_value">[@app_pkg_name]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">运行平台</div>
+                            <div class="vercell_value">[@app_os_type]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">文件MD5</div>
+                            <div class="vercell_value">[@file_md5]</div>
+                        </div>
+                        <div class="vercell" id="app_sign">
+                            <div class="vercell_message">签名MD5</div>
+                            <div class="vercell_value">[@app_sign]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">文件路径</div>
+                            <div class="vercell_value">[@source_dir]</div>
+                        </div>
+                        <div class="vercell">
+                            <div class="vercell_message">应用详报</div>
+                            <div class="vercell_value"><a href="detail.html">《点击查看应用详细报告》</a></div>
+                        </div>
+                    </div>
+                    <img src="img/zhang.png"
+                         style="position:absolute;right: 30px; bottom:30px;width: 160px;height: 160px;z-index: -1">
+                </div>
+            </div>
+        </div>
+        <!--危险行为统计-->
+        <div class="col-100" id="divDangerPanel">
+            <div class="panel">
+                <img src="img/datagrid_panel.jpg"
+                     style="position:absolute;top: 0; left:0;width: 1000px;height: 58px;z-index: -1">
+                <h5 class="panel_title">危险行为统计</h5>
+                <div class="panel_body ">
+                    <div class="hor_display" style="height: 230px;" id="dangerActPanelHeader">
+                        <div class="main_info">
+                            <h3 class="item_title text-color-3">
+                                <div class="title_info">危险行为
+                                    <p class="item_subtitle">
+                                        共发现[@total]类危险行为
+                                    </p>
+                                </div>
+                            </h3>
+                            <div class="sub_desc" style="width: 640px;height: 85px;">
+                                <div style="position: absolute ;bottom: 0">
+                                    本项展示出[@mes]应用程序在手机系统运行时，执行的危险行为动作、产生的数据内容；具备这些危险行为权限的应用程序，
+                                    对用户均存在潜在的隐私泄露风险！应用程序任何时刻，可根据某种目的，实现隐蔽性的窃取用户隐私数据。系统根据预置的恶意行为维度模型算法，
+                                    计算出应用运行时具有危险性质的行为事件，并给于这些行为事件评估“威胁级别”
+                                </div>
+                            </div>
+                        </div>
+                        <!--图片显示-->
+                        <div class="right_img">
+                            <div class="img_info">
+                                <img src="img/wxxw.png">
+                                <div class="numb"><p><b>[@total]</b>类</p>危险行为</div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!--关键行为列表详情-->
+                    <h5 class="inner_title">危险行为列表（详情）</h5>
+                    <div class="title_list" id="dangerListHtml">
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--网络舆情信息 - 域名列表-->
+        <div class="col-100" id="divDomainPanel">
+            <div class="panel">
+                <img src="img/datagrid_panel.jpg"
+                     style="position:absolute;top: 0; left:0;width: 1000px;height: 58px;z-index: -1">
+                <h5 class="panel_title">网络舆情信息 - 域名列表</h5>
+                <div class="panel_body">
+                    <div class="hor_display" style="height: 230px;" id="domainTableHeader">
+                        <div class="main_info">
+                            <h3 class="item_title text_blue">
+                                <div class="title_info">访问域名
+                                    <p class="item_subtitle">
+                                        共发现 [@total] 个域名被访问
+                                    </p>
+                                </div>
+                            </h3>
+                            <div class="sub_desc" style="width: 640px;height: 85px;">
+                                <div style="position: absolute ;bottom: 0">
+                                    系统在应用程序运行过程中，跟踪和记录了应用程序访问的互联网域名信息，这些域名代表应用程序在运行过程中，
+                                    和这些网站服务器进行了数据交换，包括上传数据；如有需要了解网络数据详情，可以在专业版中查阅。
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--图片显示-->
+                        <div class="right_img">
+                            <div class="img_info">
+                                <img src="img/yybg.png">
+                                <div class="numb"><p><b>[@total]</b>个</p>访问域名</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表格-->
+                    <div class="innerifo">
+                        <table class="table" id="domainDatagrid">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>域名地址</th>
+                                <th>对于IP地址</th>
+                                <th>归属地</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="center_a"><a id="allDomainCodeList">加载全部</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--网络舆情信息 - IP列表-->
+        <div class="col-100" id="divIPPanel">
+            <div class="panel">
+                <img src="img/datagrid_panel.jpg"
+                     style="position:absolute;top: 0; left:0;width: 1000px;height: 58px;z-index: -1">
+                <h5 class="panel_title">网络舆情信息 - IP列表</h5>
+                <div class="panel_body">
+                    <div class="hor_display" style="height: 230px;" id="ipTableHeader">
+                        <div class="main_info">
+                            <h3 class="item_title text_blue">
+                                <div class="title_info">访问IP
+                                    <p class="item_subtitle">
+                                        共发现 [@total] 个 IP 被访问
+                                    </p>
+                                </div>
+                            </h3>
+                            <div class="sub_desc" style="width: 640px;height: 85px;">
+                                <div style="position: absolute ;bottom: 0">
+                                    系统在应用程序运行过程中，跟踪和记录了应用程序访问的远程 IP 地址信息，这些 IP 代表应用程序在运行过程中，
+                                    和远程服务器进行了数据交换，包括上传数据，报告包括展示了 IP 地址归属地；如有需要了解网络数据详情，可以在专业版中查阅。
+                                </div>
+                            </div>
+
+                        </div>
+                        <!--图片显示-->
+                        <div class="right_img">
+                            <div class="img_info">
+                                <img src="img/ipfw.png">
+                                <div class="numb"><p><b>[@total]</b>个</p>IP 被访问</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表格-->
+                    <div class="innerifo">
+                        <table class="table" id="ipDatagrid">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>IP地址</th>
+                                <th>归属地</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="center_a"><a id="allIpCodeList">加载全部</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--系统文件操作统计-->
+        <div class="col-100" id="divSysFilePanel">
+            <div class="panel">
+                <img src="img/datagrid_panel.jpg"
+                     style="position:absolute;top: 0; left:0;width: 1000px;height: 58px;z-index: -1">
+                <h5 class="panel_title">系统文件操作统计</h5>
+                <div class="panel_body">
+                    <div class="hor_display" style="height: 230px;" id="divSysTableHeader">
+                        <div class="main_info">
+                            <h3 class="item_title text_lightblue">
+
+                                <div class="title_info">操作系统文件
+                                    <p class="item_subtitle">
+                                        共发现 [@total] 个系统文件被操作
+                                    </p>
+                                </div>
+                            </h3>
+                            <div class="sub_desc" style="width: 640px;height: 85px;">
+                                <div style="position: absolute ;bottom: 0">
+                                    应用程序在运行过程中，会操作手机本地各种类型文件；其中，包括系统文件、应用自身文件、手机用户区域文件等；
+                                    然而，对于具有危险性质的应用程序，大部分会操作系统文件，如系统内置的各种数据库或核心文件。
+                                </div>
+                            </div>
+                        </div>
+                        <!--图片显示-->
+                        <div class="right_img">
+                            <div class="img_info">
+                                <img src="img/xtwjcz.png">
+                                <div class="numb"><p><b>[@total]</b>个</p>系统文件操作</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表格-->
+                    <div class="innerifo">
+                        <table class="table" id="sysFileDatagrid">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>路径</th>
+                                <th>操作</th>
+                                <th>说明</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="center_a"><a id="allSysFileCodeList">加载全部</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--权限行为列表-->
+        <div class="col-100" id="divPermissionPanel">
+            <div class="panel">
+                <img src="img/datagrid_panel.jpg"
+                     style="position:absolute;top: 0; left:0;width: 1000px;height: 58px;z-index: -1">
+                <h5 class="panel_title">权限行为列表</h5>
+                <div class="panel_body">
+                    <div class="hor_display" style="height: 230px;" id="divPermissionTableHeader">
+                        <div class="main_info">
+                            <h3 class="item_title text_orange">
+                                <div class="title_info">权限行为
+                                    <p class="item_subtitle">
+                                        共具有 [@total] 个权限行为
+                                    </p>
+                                </div>
+                            </h3>
+                            <div class="sub_desc" style="width: 640px;height: 85px;">
+                                <div style="position: absolute ;bottom: 0">
+                                    应用程序在手机中，会向系统申请声明众多的安全权限，从而在运行过程中将会执行各种权限行为；
+                                    其中，很多行为权限具有不同的威胁级别，甚至是危险行为性质，这些权限行为能够给用户造成隐私泄漏的潜在风险。
+                                    我们建议用户在使用应用程序时，对非必要的权限行为进行禁止。
+                                </div>
+                            </div>
+                        </div>
+                        <!--图片显示-->
+                        <div class="right_img">
+                            <div class="img_info">
+                                <img src="img/qxxw.png">
+                                <div class="numb"><p><b>[@total]</b>个</p>权限行为 [@danger] 高危 [@warn] 敏感</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--表格-->
+                    <div class="innerifo">
+                        <table class="table" id="permissionDatagrid">
+                            <thead>
+                            <tr>
+                                <th>编号</th>
+                                <th>许可名称</th>
+                                <th>信息</th>
+                                <th>级别</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+
+                            </tbody>
+                        </table>
+                        <div class="center_a"><a id="allPermissionCodeList">加载全部</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--content结束 -->
+    <!--底部-->
+    <div class="col-100">
+        <div class="panel bottom_info">
+            <img src="img/bg.gif"
+                 style="position: absolute;left: 0; right: 0; width: 100%;height: 144px; bottom:0;top:0;z-index: -999">
+            <img src="img/lxkj.png">
+            <p>©2002 - 2019　成都立鑫新技术科技有限公司版权所有</p>
+        </div>
+    </div>
+</div>
+</div>
+</body>
+<!--右侧操作按钮-->
+<div class="fixed_control noprint">
+    <!--<div><a id="print">打印</a></div>-->
+    <div><a id="back-to-top" href="#top">返回顶部</a></div>
+</div>
+<!--左侧操作按钮
+<div class="fixed_control noprint" style="position:fixed;bottom:20px;left:20px;">
+    <div><a id="linkCloseWin" href="javascript:">关闭</a></div>
+</div>-->
+</html>
